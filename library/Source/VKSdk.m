@@ -415,7 +415,7 @@ static NSString *VK_ACCESS_TOKEN_DEFAULTS_KEY = @"VK_ACCESS_TOKEN_DEFAULTS_KEY_D
     } else {
 
         BOOL firstCall = instance.accessToken == nil;
-        instance.accessToken = token;
+        [instance setAccessToken:token notifyDelegates:NO];
         instance.authState = VKAuthorizationPending;
 
         [[VKSdk instance] requestSdkState:^(VKUser *visitor, NSInteger per, NSError *error) {
@@ -551,12 +551,18 @@ static NSString *VK_ACCESS_TOKEN_DEFAULTS_KEY = @"VK_ACCESS_TOKEN_DEFAULTS_KEY_D
 }
 
 - (void)setAccessToken:(VKAccessToken *)accessToken {
+    [self setAccessToken:accessToken notifyDelegates:YES];
+}
+
+- (void)setAccessToken:(VKAccessToken *)accessToken notifyDelegates:(BOOL)notifyDelegates {
     VKAccessToken *old = _accessToken;
     _accessToken = accessToken;
 
-    for (VKWeakDelegate *del in [self.sdkDelegates copy]) {
-        if ([del respondsToSelector:@selector(vkSdkAccessTokenUpdated:oldToken:)]) {
-            [del performSelector:@selector(vkSdkAccessTokenUpdated:oldToken:) withObject:self.accessToken withObject:old];
+    if (notifyDelegates) {
+        for (VKWeakDelegate *del in [self.sdkDelegates copy]) {
+            if ([del respondsToSelector:@selector(vkSdkAccessTokenUpdated:oldToken:)]) {
+                [del performSelector:@selector(vkSdkAccessTokenUpdated:oldToken:) withObject:self.accessToken withObject:old];
+            }
         }
     }
 }
