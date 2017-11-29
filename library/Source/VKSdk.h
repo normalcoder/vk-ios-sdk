@@ -87,7 +87,7 @@ typedef NS_OPTIONS(NSUInteger, VKAuthorizationOptions) {
  @param newToken new token for API requests
  @param oldToken previous used token
  */
-- (void)vkSdkAccessTokenUpdated:(VKAccessToken *)newToken oldToken:(VKAccessToken *)oldToken;
+- (void)vkSdkAccessTokenUpdated:(VKAccessToken *)newToken oldToken:(VKAccessToken *)oldToken error:(NSError *)error;
 
 /**
  Notifies about existing token has expired (by timeout). This may occurs if you requested token without no_https scope.
