@@ -68,7 +68,7 @@ typedef NS_OPTIONS(NSUInteger, VKAuthorizationOptions) {
 /**
  Notifies about access error. For example, this may occurs when user rejected app permissions through VK.com
  */
-- (void)vkSdkUserAuthorizationFailed;
+- (void)vkSdkUserAuthorizationFailed:(NSError *)error;
 
 @optional
 

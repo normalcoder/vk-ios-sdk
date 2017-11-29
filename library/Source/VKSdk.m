@@ -527,7 +527,7 @@ static NSString *VK_ACCESS_TOKEN_DEFAULTS_KEY = @"VK_ACCESS_TOKEN_DEFAULTS_KEY_D
 }
 
 - (void)notifyUserAuthorizationFailed:(VKError *)error {
-    [self notifyDelegate:@selector(vkSdkUserAuthorizationFailed) obj:nil];
+    [self notifyDelegate:@selector(vkSdkUserAuthorizationFailed:) obj:error.httpError];
     [[self class] setAccessToken:nil];
     [self resetSdkState];
 }
